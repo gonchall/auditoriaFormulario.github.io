@@ -3,35 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulario Auditoría</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            margin-top: 50px;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+        }
+
+        #mensajeConfirmacion {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 12px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
+
+<div class="form-container">
     <h2>Formulario de Auditoría</h2>
 
     <label for="cra3d_correoempresa14fa">Correo empresa:</label>
-    <input type="email" id="cra3d_correoempresa14fa"><br><br>
+    <input type="email" id="cra3d_correoempresa14fa">
 
     <label for="cra3d_nombreempresaauditora14fa">Empresa auditora:</label>
-    <input type="text" id="cra3d_nombreempresaauditora14fa"><br><br>
+    <input type="text" id="cra3d_nombreempresaauditora14fa">
 
     <label for="cra3d_nombreauditorresponsable14fa">Nombre auditor:</label>
-    <input type="text" id="cra3d_nombreauditorresponsable14fa"><br><br>
+    <input type="text" id="cra3d_nombreauditorresponsable14fa">
 
     <label for="cra3d_correoauditorresponsable14fa">Correo auditor:</label>
-    <input type="email" id="cra3d_correoauditorresponsable14fa"><br><br>
+    <input type="email" id="cra3d_correoauditorresponsable14fa">
 
     <label for="cra3d_fechainicioauditoria14fa">Fecha inicio auditoría:</label>
-    <input type="date" id="cra3d_fechainicioauditoria14fa"><br><br>
+    <input type="date" id="cra3d_fechainicioauditoria14fa">
 
     <label for="cra3d_fechaestimadainformeauditoria14fa">Fecha estimada de informe:</label>
-    <input type="date" id="cra3d_fechaestimadainformeauditoria14fa"><br><br>
+    <input type="date" id="cra3d_fechaestimadainformeauditoria14fa">
 
     <button id="InsertButton">Enviar</button>
 
-    <!-- Contenedor del mensaje de confirmación -->
-    <div id="mensajeConfirmacion" style="display: none; background-color: #d4edda; color: #155724; padding: 10px; margin-top: 20px; border: 1px solid #c3e6cb; border-radius: 5px;">
+    <div id="mensajeConfirmacion">
         ✅ Formulario enviado correctamente. Recargando...
     </div>
+</div>
 
-    <script src="formulario.js"></script>
+<script src="formulario.js"></script>
 </body>
 </html>
