@@ -73,6 +73,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (botonEnviar) {
         botonEnviar.addEventListener("click", function () {
+            if (
+                !campoCorreoEmpresa.value.trim() ||
+                !campoEmpresaAuditora.value.trim() ||
+                !campoNombreAuditor.value.trim() ||
+                !campoCorreoAuditor.value.trim() ||
+                !campoFechaInicio.value ||
+                !campoFechaInforme.value
+            ) {
+                alert("Por favor, completa todos los campos antes de enviar.");
+                botonEnviar.disabled = false;
+                return;
+            }
             console.log("Botón Enviar clicado → actualizando Excel");
             botonEnviar.disabled = true;
 
