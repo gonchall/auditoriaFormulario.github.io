@@ -11,13 +11,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const URL_FLUJO_AUTOCOMPLETAR = "https://default7042d393b8c4451aa8f811f6aed5da.85.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/75ddb566fde0445c8caddce895843c48/triggers/manual/paths/invoke/?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Y0vVfcdWjgMVGq0PwINaRMuhZ7U0-ehdPkGj_To_PyI";
 
-    const URL_FLUJO_ACTUALIZAR = "https://default7042d393b8c4451aa8f811f6aed5da.85.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/3260704b65884a30af1b8d8602a0db7a/triggers/manual/paths/invoke/?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=E6VyfXl22cZQJLQWaPm-GyKot4Q-LwKq0g5zxxrqbfk"; 
+    const URL_FLUJO_ACTUALIZAR = "https://default7042d393b8c4451aa8f811f6aed5da.85.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/3260704b65884a30af1b8d8602a0db7a/triggers/manual/paths/invoke/?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=E6VyfXl22cZQJLQWaPm-GyKot4Q-LwKq0g5zxxrqbfk";
 
     if (!campoCorreoEmpresa) {
         console.warn("No se encontró el campo Correo Empresa");
         return;
     }
 
+    // Autocompletar al salir del campo correo
     campoCorreoEmpresa.addEventListener("blur", function () {
         const correo = campoCorreoEmpresa.value.trim();
         console.log("Correo capturado:", correo);
@@ -67,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    // Envío de datos al flujo
     const botonEnviar = document.getElementById("InsertButton");
 
     if (botonEnviar) {
@@ -96,25 +98,27 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(res => {
                 console.log("Respuesta del flujo:", res.status);
-                return res.json(); // ← sin protección adicional
-            })
-            .then(data => {
-                console.log("Respuesta de Power Automate:", data);
 
-                if (mensajeConfirmacion) {
-                    mensajeConfirmacion.style.display = "block";
+                if (res.status === 202 || res.status === 200) {
+                    if (mensajeConfirmacion) {
+                        mensajeConfirmacion.style.display = "block";
+                    }
+
+                    campoCorreoEmpresa.value = "";
+                    campoEmpresaAuditora.value = "";
+                    campoNombreAuditor.value = "";
+                    campoCorreoAuditor.value = "";
+                    if (campoFechaInicio) campoFechaInicio.value = "";
+                    if (campoFechaInforme) campoFechaInforme.value = "";
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
+                } else {
+                    return res.json().then(data => {
+                        console.log("Respuesta JSON:", data);
+                    });
                 }
-
-                campoCorreoEmpresa.value = "";
-                campoEmpresaAuditora.value = "";
-                campoNombreAuditor.value = "";
-                campoCorreoAuditor.value = "";
-                if (campoFechaInicio) campoFechaInicio.value = "";
-                if (campoFechaInforme) campoFechaInforme.value = "";
-
-                setTimeout(() => {
-                    location.reload();
-                }, 3000);
             })
             .catch(error => {
                 console.error("Error al actualizar Excel:", error);
