@@ -99,25 +99,23 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(res => {
                 console.log("Respuesta del flujo:", res.status);
 
-                if (res.status === 202 || res.status === 200) {
-                    if (mensajeConfirmacion) {
-                        mensajeConfirmacion.style.display = "block";
-                    }
+                const noContent = res.status === 202 || res.status === 204;
 
-                    campoCorreoEmpresa.value = "";
-                    campoEmpresaAuditora.value = "";
-                    campoNombreAuditor.value = "";
-                    campoCorreoAuditor.value = "";
-                    if (campoFechaInicio) campoFechaInicio.value = "";
-                    if (campoFechaInforme) campoFechaInforme.value = "";
+                if (!res.ok) {
+                    throw new Error("Error en la respuesta del flujo");
+                }
 
-                    setTimeout(() => {
-                        location.reload();
-                    }, 3000);
-                } else {
-                    return res.json().then(data => {
-                        console.log("Respuesta JSON:", data);
-                    });
+                if (noContent) {
+                    mostrarConfirmacionYRecargar();
+                    return;
+                }
+
+                return res.json(); // solo si hay contenido
+            })
+            .then(data => {
+                if (data) {
+                    console.log("Respuesta JSON:", data);
+                    mostrarConfirmacionYRecargar();
                 }
             })
             .catch(error => {
@@ -127,5 +125,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     } else {
         console.warn("No se encontró el botón de envío.");
+    }
+
+    function mostrarConfirmacionYRecargar() {
+        if (mensajeConfirmacion) {
+            mensajeConfirmacion.style.display = "block";
+        }
+
+        campoCorreoEmpresa.value = "";
+        campoEmpresaAuditora.value = "";
+        campoNombreAuditor.value = "";
+        campoCorreoAuditor.value = "";
+        if (campoFechaInicio) campoFechaInicio.value = "";
+        if (campoFechaInforme) campoFechaInforme.value = "";
+
+        setTimeout(() => {
+            location.reload();
+        }, 3000);
     }
 });
